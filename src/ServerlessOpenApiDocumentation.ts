@@ -26,6 +26,7 @@ interface Service {
   custom: CustomVars;
 }
 
+// @ts-ignore
 interface FullServerless extends Serverless {
   service: Service;
   processedInput: ProcessedInput;
@@ -104,9 +105,12 @@ export class ServerlessOpenApiDocumentation {
     await generator.parse();
 
     // Map function configurations
+    // @ts-ignore
     const funcConfigs = this.serverless.service
+      // @ts-ignore
       .getAllFunctions()
       .map(functionName => {
+        // @ts-ignore
         const func = this.serverless.service.getFunction(functionName);
         return _.merge({ _functionName: functionName }, func);
       });
