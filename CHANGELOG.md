@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.0.0][] - 2021-12-10
+
 ### Removed
 - Support for Node 6, minimum  is now Node 10
 ### Added
@@ -44,6 +46,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 [Unreleased]: https://github.com/conqa/serverless-openapi-documentation/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/conqa/serverless-openapi-documentation/compare/v2.0.0...v2.0.0
 [1.1.0]: https://github.com/conqa/serverless-openapi-documentation/compare/v1.0.4...v1.1.0
 [1.0.4]: https://github.com/conqa/serverless-openapi-documentation/compare/v1.0.3...v1.0.4
 [1.0.3]: https://github.com/conqa/serverless-openapi-documentation/compare/v1.0.2...v1.0.3
