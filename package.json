@@ -1,16 +1,13 @@
 {
-  "name": "sls-openapi-doc-generator",
-  "version": "1.0.0",
+  "name": "@finn.auto/sls-openapi-doc-generator",
+  "version": "2.1.0",
   "description": "Serverless 1.0 plugin to generate OpenAPI V3 documentation from serverless configuration",
   "main": "index.js",
   "engines": {
     "node": ">=10.0.0",
     "npm": ">=6.14.6"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jakubzzak/serverless-openapi-documentation.git"
-  },
+  "repository": "https://github.com/jakubzzak/serverless-openapi-documentation.git",
   "bugs": "https://github.com/jakubzzak/serverless-openapi-documentation/issues",
   "author": "Abilio Henrique <abilio.henrique@temando.com>",
   "contributors": [
@@ -80,5 +77,6 @@
     "lodash": "^4.17.11",
     "swagger2openapi": "^2.5.0",
     "uuid": "^3.1.0"
-  }
+  },
+  "private": false
 }
