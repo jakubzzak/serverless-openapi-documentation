@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.1.0] - 2022-03-11
+
+### Fixed
+- Resolved operationId duplication issue when defining multiple endpoints within one function with the ability to define version, if not defined will be extracted from the path
+### Added
+- Deprecated property is now being derived from the event route, if not explicitly set
+
 ## [2.0.0][] - 2021-12-10
 
 ### Removed
@@ -46,6 +53,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 [Unreleased]: https://github.com/conqa/serverless-openapi-documentation/compare/v2.0.0...HEAD
+[2.1.0]: https://github.com/jakubzzak/serverless-openapi-documentation/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/conqa/serverless-openapi-documentation/compare/v2.0.0...v2.0.0
 [1.1.0]: https://github.com/conqa/serverless-openapi-documentation/compare/v1.0.4...v1.1.0
 [1.0.4]: https://github.com/conqa/serverless-openapi-documentation/compare/v1.0.3...v1.0.4

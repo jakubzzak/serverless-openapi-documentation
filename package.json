@@ -1,6 +1,6 @@
 {
-  "name": "@conqa/serverless-openapi-documentation",
-  "version": "2.0.0",
+  "name": "sls-openapi-doc-generator",
+  "version": "1.0.0",
   "description": "Serverless 1.0 plugin to generate OpenAPI V3 documentation from serverless configuration",
   "main": "index.js",
   "engines": {
@@ -9,13 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/conqa/serverless-openapi-documentation.git"
+    "url": "https://github.com/jakubzzak/serverless-openapi-documentation.git"
   },
-  "bugs": "https://github.com/conqa/serverless-openapi-documentation/issues",
+  "bugs": "https://github.com/jakubzzak/serverless-openapi-documentation/issues",
   "author": "Abilio Henrique <abilio.henrique@temando.com>",
   "contributors": [
     "Abilio Henrique <abilio.henrique@temando.com>",
-    "nfour <novus.nfour@gmail.com>"
+    "nfour <novus.nfour@gmail.com>",
+    "jakubzzak <jakub.zak@finn.auto>"
   ],
   "keywords": [
     "OpenAPI",
@@ -28,17 +29,23 @@
     "test:build": "jest -c '{ \"testRegex\": \".spec.js$\"}' build",
     "test:coverage": "jest -c ./jest.config.js --coverage",
     "lint": "eslint --ext .ts,.tsx .",
-    "lint:fix": "npm run lint -- --fix",
-    "preversion": "npm run lint && npm run build && npm run test:build && changelog-verify CHANGELOG.md",
+    "lint:fix": "yarn run lint -- --fix",
+    "preversion": "yarn run lint && yarn run build && yarn run test:build && changelog-verify CHANGELOG.md",
     "version": "version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md",
-    "release": "cd build && npm publish",
-    "test:project": "cd test/project && ./node_modules/.bin/sls openapi generate",
+    "release": "cd build && yarn publish",
+    "build:link": "yarn run build && cd build && yarn link",
+    "build:watch": "yarn run build && tsc --watch",
+    "build": "scripts/build.bash",
     "test:prepare": "scripts/prepareTests.bash",
-    "build:link": "npm run build && cd build && npm link",
-    "build:watch": "npm run build && tsc --watch",
-    "build": "scripts/build.bash"
+    "test:gen": "cd test/css && ./node_modules/.bin/sls openapi generate",
+    "test:genjson": "cd test/css && ./node_modules/.bin/sls openapi generate -f json",
+    "test:doc": "yarn test:prepare && yarn test:gen",
+    "test:docjson": "yarn test:prepare && yarn test:genjson",
+    "test:offline": "cd test/css && sls offline && cd ../.."
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.17.0",
+    "@hapi/eslint-plugin": "^5.1.0",
     "@types/bluebird": "^3.5.8",
     "@types/chalk": "^0.4.31",
     "@types/fs-extra": "^4.0.0",
@@ -62,7 +69,7 @@
     "ts-jest": "^24.0.2",
     "ts-node": "^3.1.0",
     "typescript": "^3.4.5",
-    "version-changelog": "^2.1.0"
+    "version-changelog": "^3.1.1"
   },
   "dependencies": {
     "bluebird": "^3.5.0",

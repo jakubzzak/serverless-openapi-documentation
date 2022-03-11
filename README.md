@@ -1,9 +1,3 @@
-# THIS PLUGIN IS UNMAINTAINED
-
-Please note, this plugin is not maintained, while you can use the resulting plugin, it is not being updated in any way.
-
-Issues and PRs are not reviewed or accepted. Feel free to Fork and continue if this plugin is useful to you, it's not currently being used by the original maintainers.
-
 # Serverless OpenAPI Documentation Plugin
 
 [![NPM](https://img.shields.io/npm/v/@conqa/serverless-openapi-documentation.svg)](https://npmjs.org/packages/@conqa/serverless-openapi-documentation/)
@@ -348,6 +342,21 @@ serverless | grep -i "ServerlessOpenAPIDocumentation"
 It should return `ServerlessOpenAPIDocumentation` as one of the plugins on the list.
 
 > Note: Add this plugin _after_ `serverless-offline` to prevent issues with `String.replaceAll` being overridden incorrectly.
+
+## Test
+All you need to do is to run the following command
+```bash
+yarn test:docjson
+```
+check if the command was executed without any errors and the result looks the way you want it.
+Test case runs automatically on the test/css folder, thus in case you want to include your own project both
+`prepareTests.bash` script and `test:docjson` need to be adjusted accordingly.
+
+To see the generated docs preview on localhost run
+```bash
+cd test/css && sls offline && cd ../..
+```
+
 
 ## License
 

@@ -35,11 +35,12 @@ export class DefinitionGenerator {
     this.root = root;
   }
 
-  public async parse() {
+  public async parse(serverlessConfig: any) {
     const {
       title = "",
       description = "",
       version = uuid.v4(),
+      versions = [],
       models,
       security,
       securitySchemes,
@@ -49,6 +50,7 @@ export class DefinitionGenerator {
     _.merge(this.definition, {
       openapi: this.version,
       info: { title, description, version },
+      versions,
       paths: {},
       components: {
         schemas: {}
@@ -65,6 +67,15 @@ export class DefinitionGenerator {
 
     if (servers) {
       this.definition.servers = servers;
+    }
+
+    const slsStage =
+      serverlessConfig?.serverless?.configurationInput?.provider?.stage;
+    if (slsStage) {
+      this.definition.versions = this.definition.versions.map(v => ({
+        ...v,
+        href: `${slsStage}${!v.href.startsWith("/") ? "/" : ""}${v.href}`
+      }));
     }
 
     this.definition.components.schemas = await parseModels(models, this.root);
@@ -96,17 +107,35 @@ export class DefinitionGenerator {
   public readFunctions(config: Array<ServerlessFunctionConfig>): void {
     // loop through function configurations
     for (const funcConfig of config) {
+      const pathVersionRegex = /\/v[1-9]\//g;
+      const explicitVersionRegex = /[1-9]/g;
       // loop through http events
       for (const httpEvent of this.getHttpEvents(funcConfig.events)) {
         const httpEventConfig = httpEvent.http;
-
         if (httpEventConfig.documentation) {
+          // Define event version
+          const defaultEventVersion = "1";
+          const pathEventVersion = httpEventConfig.path
+            .match(pathVersionRegex)?.[0]
+            .match(explicitVersionRegex)?.[0];
+          const explicitEventVersion = httpEventConfig.documentation.version
+            ?.toString()
+            .match(explicitVersionRegex)?.[0];
+          const eventVersion =
+            explicitEventVersion ?? pathEventVersion ?? defaultEventVersion;
           // Build OpenAPI path configuration structure for each method
           const pathConfig = {
             [`/${httpEventConfig.path}`]: {
               [httpEventConfig.method.toLowerCase()]: this.getOperationFromConfig(
-                funcConfig._functionName,
-                httpEventConfig.documentation
+                `${funcConfig._functionName}_v${eventVersion}`,
+                {
+                  ...httpEventConfig.documentation,
+                  deprecated:
+                    httpEventConfig.documentation.deprecated ||
+                    eventVersion <
+                      (this.config.version?.match(/[1-9]+/g)?.[0] ??
+                        defaultEventVersion)[0]
+                }
               )
             }
           };
@@ -271,9 +300,7 @@ export class DefinitionGenerator {
         if (requestModel) {
           const reqModelConfig = {
             schema: {
-              $ref: `#/components/schemas/${
-                documentationConfig.requestModels[requestModelType]
-              }`
+              $ref: `#/components/schemas/${documentationConfig.requestModels[requestModelType]}`
             }
           };
 

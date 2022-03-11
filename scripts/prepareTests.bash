@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-npm run build:link \
-  && cd test/project \
-  && npm i \
-  && npm link serverless-openapi-documentation
+yarn run build:link \
+  && cd test/css \
+  && yarn install \
+  && yarn link sls-openapi-doc-generator

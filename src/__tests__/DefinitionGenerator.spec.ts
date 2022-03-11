@@ -52,7 +52,7 @@ describe("OpenAPI Documentation Generator", () => {
     );
 
     // implementation copied from ServerlessOpenApiDocumentation.ts
-    await docGen.parse();
+    await docGen.parse(sls.config);
 
     const funcConfigs = sls.service.getAllFunctions().map(functionName => {
       const func = sls.service.getFunction(functionName);

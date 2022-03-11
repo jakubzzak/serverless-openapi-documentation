@@ -102,7 +102,7 @@ export class ServerlessOpenApiDocumentation {
       this.serverless.config.servicePath
     );
 
-    await generator.parse();
+    await generator.parse(this.serverless.config);
 
     // Map function configurations
     // @ts-ignore
