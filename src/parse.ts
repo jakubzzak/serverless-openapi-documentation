@@ -31,10 +31,7 @@ function updateReferences(schema: JSONSchema7): JSONSchema7 {
   return cloned;
 }
 
-export async function parseModels(
-  models: Array<Model>,
-  root: string
-): Promise<{}> {
+export async function parseModels(models: Model[], root: string): Promise<{}> {
   const schemas = {};
 
   if (!_.isArrayLike(models)) {

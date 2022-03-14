@@ -9,6 +9,7 @@ import {
   DefinitionConfig,
   Operation,
   ParameterConfig,
+  RequestParam,
   ServerlessFunctionConfig
 } from "./types";
 import { cleanSchema } from "./utils";
@@ -85,9 +86,9 @@ export class DefinitionGenerator {
 
   public validate(): {
     valid: boolean;
-    context: Array<string>;
-    warnings: Array<any>;
-    error?: Array<any>;
+    context: string[];
+    warnings: any[];
+    error?: any[];
   } {
     const payload: any = {};
 
@@ -104,37 +105,58 @@ export class DefinitionGenerator {
    * Add Paths to OpenAPI Configuration from Serverless function documentation
    * @param config Add
    */
-  public readFunctions(config: Array<ServerlessFunctionConfig>): void {
+  public readFunctions(config: ServerlessFunctionConfig[]): void {
     // loop through function configurations
     for (const funcConfig of config) {
-      const pathVersionRegex = /\/v[1-9]\//g;
-      const explicitVersionRegex = /[1-9]/g;
       // loop through http events
       for (const httpEvent of this.getHttpEvents(funcConfig.events)) {
         const httpEventConfig = httpEvent.http;
         if (httpEventConfig.documentation) {
-          // Define event version
-          const defaultEventVersion = "1";
-          const pathEventVersion = httpEventConfig.path
-            .match(pathVersionRegex)?.[0]
-            .match(explicitVersionRegex)?.[0];
-          const explicitEventVersion = httpEventConfig.documentation.version
-            ?.toString()
-            .match(explicitVersionRegex)?.[0];
-          const eventVersion =
-            explicitEventVersion ?? pathEventVersion ?? defaultEventVersion;
+          const eventVersion = this.getEventVersion(httpEventConfig);
+          const defaultPathParams = this.extractParamsFromEventPath(
+            httpEventConfig.path
+          );
+
+          if (Array.isArray(httpEventConfig.documentation.pathParams)) {
+            httpEventConfig.documentation.pathParams.forEach((pathParam): void => {
+                if (
+                  !defaultPathParams.find(
+                    (dpp): boolean => dpp.name === pathParam.name
+                  )
+                ) {
+                  throw new Error(
+                    `Defined path parameter '${pathParam.name}' does not appear in the event path: ${httpEventConfig.path}`
+                  );
+                }
+              }
+            );
+            defaultPathParams.forEach((dpp): void => {
+              if (
+                !httpEventConfig.documentation.pathParams.find(
+                  (pathParam): boolean => pathParam.name === dpp.name
+                )
+              ) {
+                httpEventConfig.documentation.pathParams.push(dpp);
+              }
+            });
+          }
           // Build OpenAPI path configuration structure for each method
           const pathConfig = {
             [`/${httpEventConfig.path}`]: {
               [httpEventConfig.method.toLowerCase()]: this.getOperationFromConfig(
-                `${funcConfig._functionName}_v${eventVersion}`,
+                `${funcConfig._functionName}` +
+                  `_v${eventVersion}` +
+                  `_${httpEventConfig.method}` +
+                  `_#${(Math.random() * 1000).toString().split(".")[1]}`,
                 {
                   ...httpEventConfig.documentation,
+                  pathParams:
+                    httpEventConfig.documentation.pathParams ??
+                    defaultPathParams,
                   deprecated:
                     httpEventConfig.documentation.deprecated ||
                     eventVersion <
-                      (this.config.version?.match(/[1-9]+/g)?.[0] ??
-                        defaultEventVersion)[0]
+                      (this.config.version?.match(/[1-9]+/g)?.[0] ?? "1")[0]
                 }
               )
             }
@@ -195,8 +217,8 @@ export class DefinitionGenerator {
    * Derives Path, Query and Request header parameters from Serverless documentation
    * @param documentationConfig
    */
-  private getParametersFromConfig(documentationConfig): Array<ParameterConfig> {
-    const parameters: Array<ParameterConfig> = [];
+  private getParametersFromConfig(documentationConfig): ParameterConfig[] {
+    const parameters: ParameterConfig[] = [];
 
     // Build up parameters from configuration for each parameter type
     for (const type of ["path", "query", "header", "cookie"]) {
@@ -403,7 +425,36 @@ export class DefinitionGenerator {
     return content;
   }
 
-  private getHttpEvents(funcConfig) {
-    return funcConfig.filter(event => (event.http ? true : false));
-  }
+  private getHttpEvents = funcConfig => {
+    return funcConfig.filter(event => !!event.http);
+  };
+
+  private getEventVersion = eventConfig => {
+    const defaultEventVersion = "1";
+    const pathVersionRegex = /\/v[1-9]\//g;
+    const explicitVersionRegex = /[1-9]/g;
+
+    const pathEventVersion = eventConfig.path
+      .match(pathVersionRegex)?.[0]
+      .match(explicitVersionRegex)?.[0];
+    const explicitEventVersion = eventConfig.documentation.version
+      ?.toString()
+      .match(explicitVersionRegex)?.[0];
+    return explicitEventVersion ?? pathEventVersion ?? defaultEventVersion;
+  };
+
+  private extractParamsFromEventPath = (path: string): RequestParam[] => {
+    const pathParams: string[] = path.match(/{[^/{}]+}/g) || [];
+    return pathParams
+      .map(pathParam => pathParam.replace(/[{}]/g, ""))
+      .map(pathParam => {
+        return {
+          name: pathParam,
+          description: _.startCase(_.lowerCase(pathParam)),
+          schema: {
+            type: "string"
+          }
+        };
+      });
+  };
 }

@@ -61,8 +61,51 @@ export default {
       {
         http: {
           method: "get",
-          path: "api/v4/health",
+          path:
+            "api/v4/health/customers/{customer_id}/subscriptions/{subscription_id}",
           documentation: healthCheckDoc()
+        }
+      },
+      {
+        http: {
+          method: "get",
+          path: "api/v4/health/customers/{customer_id}/drivers/{driver_id}",
+          documentation: healthCheckDoc({
+            pathParams: [
+              {
+                name: "customer_id",
+                description: "My customer description",
+                schema: {
+                  type: "string"
+                }
+              }
+            ]
+          })
+        }
+      },
+      {
+        http: {
+          method: "get",
+          path: "api/v4/health/customers/{customer_id}/deals/{deal_id}",
+          documentation: healthCheckDoc({
+            pathParams: [
+              {
+                name: "customer_id",
+                description: "My customer description",
+                schema: {
+                  type: "string"
+                }
+              },
+              {
+                name: "deal_id",
+                description: "My deal description",
+                schema: {
+                  type: "string",
+                  pattern: "^[1-9]+$"
+                }
+              }
+            ]
+          })
         }
       }
     ]

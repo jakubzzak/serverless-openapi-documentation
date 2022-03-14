@@ -87,7 +87,7 @@ export class ServerlessOpenApiDocumentation {
     };
   }
 
-  private log: ILog = (...str: Array<string>) => {
+  private log: ILog = (...str: string[]): void => {
     process.stdout.write(str.join(" "));
   };
 
