@@ -118,7 +118,8 @@ export class DefinitionGenerator {
           );
 
           if (Array.isArray(httpEventConfig.documentation.pathParams)) {
-            httpEventConfig.documentation.pathParams.forEach((pathParam): void => {
+            httpEventConfig.documentation.pathParams.forEach(
+              (pathParam): void => {
                 if (
                   !defaultPathParams.find(
                     (dpp): boolean => dpp.name === pathParam.name

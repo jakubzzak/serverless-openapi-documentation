@@ -1,7 +1,7 @@
 # Serverless OpenAPI Documentation Plugin
 
-[![NPM](https://img.shields.io/npm/v/@conqa/serverless-openapi-documentation.svg)](https://npmjs.org/packages/@conqa/serverless-openapi-documentation/)
-[![Travis CI](https://img.shields.io/travis/conqa/serverless-openapi-documentation.svg)](https://travis-ci.org/conqa/serverless-openapi-documentation)
+[//]: # ([![NPM]&#40;https://img.shields.io/npm/v/@conqa/serverless-openapi-documentation.svg&#41;]&#40;https://npmjs.org/packages/@conqa/serverless-openapi-documentation/&#41;)
+[//]: # ([![Travis CI]&#40;https://img.shields.io/travis/conqa/serverless-openapi-documentation.svg&#41;]&#40;https://travis-ci.org/conqa/serverless-openapi-documentation&#41;)
 
 Generates [**OpenAPI 3.0.0**](https://github.com/OAI/OpenAPI-Specification/blob/3.0.0/versions/3.0.0.md) documentation from serverless configuration files. OpenAPI is formerly known as Swagger. The configuration is inspired by the format used in [serverless-aws-documentation](https://www.npmjs.com/package/serverless-aws-documentation).
 
@@ -211,8 +211,8 @@ queryParams:
 ```
 
 #### `pathParams`
-
-Path parameters can be described as follow:
+They get derived form the event path thus do not need to be passed explicitly.
+Path parameters can be described as follows:
 
 * `name`: the name of the query variable
 * `description`: a description of the query variable
@@ -228,7 +228,7 @@ pathParams:
 
 #### `cookieParams`
 
-Cookie parameters can be described as follow:
+Cookie parameters can be described as follows:
 
 * `name`: the name of the query variable
 * `description`: a description of the query variable
@@ -318,19 +318,19 @@ To add this plugin to your package.json:
 
 **Using npm:**
 ```bash
-npm install @conqa/serverless-openapi-documentation --save-dev
+npm install @finn.auto/sls-openapi-doc-generator --save-dev
 ```
 
 **Using Yarn:**
 ```bash
-yarn add @conqa/serverless-openapi-documentation --dev
+yarn add @finn.auto/sls-openapi-doc-generator --dev
 ```
 
 Next you need to add the plugin to the `plugins` section of your `serverless.yml` file.
 
 ```yml
 plugins:
-  - @conqa/serverless-openapi-documentation
+  - @finn.auto/sls-openapi-doc-generator
 ```
 
 You can confirm the plugin is correctly installed by running:

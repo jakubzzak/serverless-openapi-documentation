@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.1.1] - 2022-03-15
+
+### Added
+- pathParams default values is now derived from the event path thus do not need to be provided explicitly
+
 ## [2.1.0] - 2022-03-11
 
 ### Fixed
@@ -52,7 +57,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - inital release after forking from temando/serverless-openapi-documentation
 
 
-[Unreleased]: https://github.com/conqa/serverless-openapi-documentation/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/conqa/serverless-openapi-documentation/compare/v2.1.2...HEAD
+[2.1.1]: https://github.com/jakubzzak/serverless-openapi-documentation/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/jakubzzak/serverless-openapi-documentation/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/conqa/serverless-openapi-documentation/compare/v2.0.0...v2.0.0
 [1.1.0]: https://github.com/conqa/serverless-openapi-documentation/compare/v1.0.4...v1.1.0
