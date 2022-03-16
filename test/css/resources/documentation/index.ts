@@ -2,7 +2,7 @@ import models from "./models";
 
 export default {
   version: "v2.0.0",
-  title: "Customer Self Service API",
+  title: "Css API",
   description: "API for the Customer Portal Area",
   contact: {
     name: "OPS - Customer Product Team",
@@ -41,15 +41,15 @@ export default {
   ],
   servers: [
     {
-      url: "https://dev-customer-self-service.finn.auto",
+      url: "https://finn.auto",
       description: "Development server"
     },
     {
-      url: "https://stg-customer-self-service.finn.auto",
+      url: "https://finn.auto",
       description: "Staging server"
     },
     {
-      url: "https://customer-self-service.finn.auto",
+      url: "https://finn.auto",
       description: "Production server"
     }
   ]

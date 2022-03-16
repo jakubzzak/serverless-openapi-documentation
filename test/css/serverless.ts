@@ -8,12 +8,13 @@ import documentation from './resources/documentation';
 const serverlessConfiguration: Serverless = {
   frameworkVersion: '2',
   org: 'finnauto',
-  app: 'customer-self-service-api',
-  service: 'customer-self-service-api',
+  app: 'css',
+  service: 'css',
   custom: {
     'serverless-offline': {
       httpPort: 8000,
       lambdaPort: 8002,
+      noPrependStageInUrl: true,
     },
     bundle: {
       // To include openapi.json in lambda package
@@ -33,9 +34,9 @@ const serverlessConfiguration: Serverless = {
       number: 3,
     },
     domains: {
-      production: 'customer-self-service.finn.auto',
-      development: 'dev-customer-self-service.finn.auto',
-      staging: 'stg-customer-self-service.finn.auto',
+      production: 'css.finn.auto',
+      development: 'dev.css.finn.auto',
+      staging: 'stg.css.finn.auto',
     },
     customDomain: {
       domainName: '${self:custom.domains.${self:provider.stage}}',

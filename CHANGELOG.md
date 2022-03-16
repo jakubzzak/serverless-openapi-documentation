@@ -7,24 +7,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.1.2] - 2022-03-16
+### Changed
+- openapi validation now does not consider `versions` parameter as violent
+### Fixed
+- serverless-offline is now required to be used with the `noPrependStageInUrl: true` parameter to ensure correct docs routing
+
 ## [2.1.1] - 2022-03-15
-
-### Added
-- pathParams default values is now derived from the event path thus do not need to be provided explicitly
-
-## [2.1.0] - 2022-03-11
-
 ### Fixed
 - Resolved operationId duplication issue when defining multiple endpoints within one function with the ability to define version, if not defined will be extracted from the path
-### Added
-- Deprecated property is now being derived from the event route, if not explicitly set
-
-## [2.0.0][] - 2021-12-10
-
 ### Removed
 - Support for Node 6, minimum  is now Node 10
 ### Added
 - (Untested) compatibility with Serverless 3.x
+- Deprecated property is now being derived from the event route, if not explicitly set
+- pathParams default values is now derived from the event path thus do not need to be provided explicitly
 
 ## [1.1.0] - 2019-05-09
 ### Added
@@ -57,10 +54,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - inital release after forking from temando/serverless-openapi-documentation
 
 
-[Unreleased]: https://github.com/conqa/serverless-openapi-documentation/compare/v2.1.2...HEAD
-[2.1.1]: https://github.com/jakubzzak/serverless-openapi-documentation/compare/v2.1.0...v2.1.1
-[2.1.0]: https://github.com/jakubzzak/serverless-openapi-documentation/compare/v2.0.0...v2.1.0
-[2.0.0]: https://github.com/conqa/serverless-openapi-documentation/compare/v2.0.0...v2.0.0
+[Unreleased]: https://github.com/jakubzzak/serverless-openapi-documentation/compare/v2.1.2...HEAD
+[2.1.2]: https://github.com/jakubzzak/serverless-openapi-documentation/compare/v2.1.1...v2.1.2
+[2.1.1]: https://github.com/jakubzzak/serverless-openapi-documentation/compare/v1.1.0...v2.1.1
 [1.1.0]: https://github.com/conqa/serverless-openapi-documentation/compare/v1.0.4...v1.1.0
 [1.0.4]: https://github.com/conqa/serverless-openapi-documentation/compare/v1.0.3...v1.0.4
 [1.0.3]: https://github.com/conqa/serverless-openapi-documentation/compare/v1.0.2...v1.0.3

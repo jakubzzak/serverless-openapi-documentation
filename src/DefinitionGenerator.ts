@@ -36,7 +36,7 @@ export class DefinitionGenerator {
     this.root = root;
   }
 
-  public async parse(serverlessConfig: any) {
+  public async parse() {
     const {
       title = "",
       description = "",
@@ -70,15 +70,6 @@ export class DefinitionGenerator {
       this.definition.servers = servers;
     }
 
-    const slsStage =
-      serverlessConfig?.serverless?.configurationInput?.provider?.stage;
-    if (slsStage) {
-      this.definition.versions = this.definition.versions.map(v => ({
-        ...v,
-        href: `${slsStage}${!v.href.startsWith("/") ? "/" : ""}${v.href}`
-      }));
-    }
-
     this.definition.components.schemas = await parseModels(models, this.root);
 
     return this;
@@ -98,6 +89,11 @@ export class DefinitionGenerator {
       payload.error = error.message;
     }
 
+    // catch custom openapi props:
+    // - 'additionalProperty: versions'
+    if (payload.error?.includes("additionalProperty: versions")) {
+      payload.valid = true;
+    }
     return payload;
   }
 

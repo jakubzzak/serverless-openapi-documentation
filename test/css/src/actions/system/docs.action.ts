@@ -22,15 +22,16 @@ export const serveDocs: APIGatewayProxyHandler = async (): Promise<APIGatewayPro
             <script src="https://unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js"></script>
             <script>
               let url = window.location.href
+              let availableVersions = Array.isArray(${spec}.versions) && ${spec}.versions.length > 0 ? ${spec}.versions : null
               let currentVersion = url.match(/\\/v[1-9]\\//g)?.[0]
-              let reducedSpecPaths = currentVersion ? {} : ${spec}.paths
-              if (currentVersion) {
+              let reducedSpecPaths = currentVersion && availableVersions ? {} : ${spec}.paths
+
+              if (currentVersion && availableVersions) {
                 Object.keys(${spec}.paths)
                     .filter(path => path.includes(currentVersion))
                     .forEach(path => reducedSpecPaths[path] = ${spec}.paths[path]);
               }
 
-              let availableVersions = ${spec}.versions
               if (availableVersions) {
                 let versionDropdown = document.getElementById("availableVersions")
                 let currentVersionOption = null
@@ -44,19 +45,20 @@ export const serveDocs: APIGatewayProxyHandler = async (): Promise<APIGatewayPro
                   }
                   versionDropdown.appendChild(option)
                 })
-                versionDropdown.value = currentVersionOption.value
+                versionDropdown.value = currentVersionOption?.value
                 versionDropdown.onchange = function ({ target }) {
                   window.location.pathname = target.value
                 }
+              } else {
+                document.getElementById("availableVersions").style.display = "none";
               }
 
-              let localSpec = { ...${spec}, paths: reducedSpecPaths }
               SwaggerUIBundle({
                 dom_id: '#swagger',
-                spec: localSpec,
+                spec: { ...${spec}, paths: reducedSpecPaths },
               });
             </script>
-        </body>;
+        </body>
         </html>`;
 
   return {

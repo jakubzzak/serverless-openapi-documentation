@@ -59,6 +59,9 @@ custom:
     version: '1'
     title: 'My API'
     description: 'This is my API'
+    versions: # optional parameter
+      - name: 'v1'
+        href: 'api/v1/docs'
     # https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#securitySchemeObject
     securitySchemes: {}
     # https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#security-requirement-object
@@ -70,6 +73,10 @@ These configurations can be quite verbose; you can separate it out into it's own
 
 ```yml
 custom:
+  serverless-offline: # local testing
+    httpPort: 8000
+    lambdaPort: 8002
+    noPrependStageInUrl: true # important for local docs routing working correctly
   documentation: ${file(serverless.doc.yml):documentation}
 
 functions:
