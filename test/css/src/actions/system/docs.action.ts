@@ -22,17 +22,25 @@ export const serveDocs: APIGatewayProxyHandler = async (): Promise<APIGatewayPro
             <script src="https://unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js"></script>
             <script>
               let url = window.location.href
-              let availableVersions = Array.isArray(${spec}.versions) && ${spec}.versions.length > 0 ? ${spec}.versions : null
-              let currentVersion = url.match(/\\/v[1-9]\\//g)?.[0]
-              let reducedSpecPaths = currentVersion && availableVersions ? {} : ${spec}.paths
+              let urlVersionRegex = /\\/v[1-9]\\//g
+              let currentVersion = url.match(urlVersionRegex)?.[0]
+              let availableVersions = Array.from(
+                new Set(
+                  Object.keys(${spec}.paths)
+                  .map(path => path.match(urlVersionRegex)?.[0]?.substring(1, 3))
+                )
+              )
+              .filter(path => path)
+              .map(path => ({ name: path, href: 'api/' + path + '/docs' }))
+              let reducedSpecPaths = currentVersion ? {} : ${spec}.paths
 
-              if (currentVersion && availableVersions) {
+              if (currentVersion) {
                 Object.keys(${spec}.paths)
                     .filter(path => path.includes(currentVersion))
                     .forEach(path => reducedSpecPaths[path] = ${spec}.paths[path]);
               }
 
-              if (availableVersions) {
+              if (availableVersions.length > 1) {
                 let versionDropdown = document.getElementById("availableVersions")
                 let currentVersionOption = null
                 availableVersions.forEach(version => {

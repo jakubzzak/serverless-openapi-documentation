@@ -41,7 +41,6 @@ export class DefinitionGenerator {
       title = "",
       description = "",
       version = uuid.v4(),
-      versions = [],
       models,
       security,
       securitySchemes,
@@ -51,7 +50,6 @@ export class DefinitionGenerator {
     _.merge(this.definition, {
       openapi: this.version,
       info: { title, description, version },
-      versions,
       paths: {},
       components: {
         schemas: {}
@@ -89,11 +87,6 @@ export class DefinitionGenerator {
       payload.error = error.message;
     }
 
-    // catch custom openapi props:
-    // - 'additionalProperty: versions'
-    if (payload.error?.includes("additionalProperty: versions")) {
-      payload.valid = true;
-    }
     return payload;
   }
 

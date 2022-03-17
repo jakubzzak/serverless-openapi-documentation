@@ -7,9 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.1.3] - 2022-03-16
+### Fixed / Removed
+- `versions` parameter not accepted by openapi was removed
+
 ## [2.1.2] - 2022-03-16
-### Changed
-- openapi validation now does not consider `versions` parameter as violent
 ### Fixed
 - serverless-offline is now required to be used with the `noPrependStageInUrl: true` parameter to ensure correct docs routing
 
@@ -54,7 +56,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - inital release after forking from temando/serverless-openapi-documentation
 
 
-[Unreleased]: https://github.com/jakubzzak/serverless-openapi-documentation/compare/v2.1.2...HEAD
+[Unreleased]: https://github.com/jakubzzak/serverless-openapi-documentation/compare/v2.1.3...HEAD
+[2.1.3]: https://github.com/jakubzzak/serverless-openapi-documentation/compare/v2.1.2...v2.1.3
 [2.1.2]: https://github.com/jakubzzak/serverless-openapi-documentation/compare/v2.1.1...v2.1.2
 [2.1.1]: https://github.com/jakubzzak/serverless-openapi-documentation/compare/v1.1.0...v2.1.1
 [1.1.0]: https://github.com/conqa/serverless-openapi-documentation/compare/v1.0.4...v1.1.0

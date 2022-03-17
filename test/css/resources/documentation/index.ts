@@ -8,24 +8,6 @@ export default {
     name: "OPS - Customer Product Team",
     email: "ops.engineering@finn.auto"
   },
-  versions: [
-    {
-      name: "v1",
-      href: "api/v1/docs"
-    },
-    {
-      name: "v2",
-      href: "api/v2/docs"
-    },
-    {
-      name: "v3",
-      href: "api/v3/docs"
-    },
-    {
-      name: "v4",
-      href: "api/v4/docs"
-    }
-  ],
   models,
   securitySchemes: {
     authToken: {

@@ -59,9 +59,6 @@ custom:
     version: '1'
     title: 'My API'
     description: 'This is my API'
-    versions: # optional parameter
-      - name: 'v1'
-        href: 'api/v1/docs'
     # https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#securitySchemeObject
     securitySchemes: {}
     # https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#security-requirement-object
@@ -73,7 +70,7 @@ These configurations can be quite verbose; you can separate it out into it's own
 
 ```yml
 custom:
-  serverless-offline: # local testing
+  serverless-offline: # local testing plugin
     httpPort: 8000
     lambdaPort: 8002
     noPrependStageInUrl: true # important for local docs routing working correctly
@@ -340,11 +337,14 @@ plugins:
   - @finn.auto/sls-openapi-doc-generator
 ```
 
-You can confirm the plugin is correctly installed by running:
+[//]: # (You can confirm the plugin is correctly installed by running:)
 
-```bash
-serverless | grep -i "ServerlessOpenAPIDocumentation"
-```
+[//]: # ()
+[//]: # (```bash)
+
+[//]: # (serverless | grep -i "ServerlessOpenAPIDocumentation")
+
+[//]: # (```)
 
 It should return `ServerlessOpenAPIDocumentation` as one of the plugins on the list.
 
